@@ -1,0 +1,453 @@
+/* ==========================================================================
+   CSS Custom Properties — sourced from design-tokens.json
+   ========================================================================== */
+:root {
+  /* Colors — markers */
+  --color-marker-x: #38bdf8;
+  --color-marker-o: #f472b6;
+
+  /* Colors — surface */
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-raised: #334155;
+
+  /* Colors — text */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+
+  /* Colors — status */
+  --color-status-win: #4ade80;
+  --color-status-draw: #facc15;
+  --color-status-playing: #f1f5f9;
+
+  /* Colors — border */
+  --color-border: #334155;
+  --color-border-focus: #38bdf8;
+
+  /* Colors — button */
+  --color-btn-bg: #334155;
+  --color-btn-bg-hover: #475569;
+  --color-btn-bg-active: #1e293b;
+  --color-btn-text: #f1f5f9;
+
+  /* Shadows */
+  --shadow-cell: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
+  --shadow-focus: 0 0 0 3px #38bdf8;
+  --shadow-board: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-cell: 0.75rem;
+  --radius-btn: 0.5rem;
+
+  /* Typography */
+  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+
+  /* Cell sizing */
+  --cell-size: clamp(5rem, 18vw, 8rem);
+  --board-gap: clamp(0.375rem, 1.5vw, 0.75rem);
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* Breakpoints (used in media queries below) */
+  /* --bp-sm: 480px */
+  /* --bp-md: 768px */
+}
+
+/* ==========================================================================
+   Reset / Base
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Layout — App Shell
+   ========================================================================== */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-4);
+  width: 100%;
+  max-width: 480px;
+}
+
+.app__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  text-align: center;
+}
+
+@media (min-width: 480px) {
+  .app__title {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+/* ==========================================================================
+   Board
+   ========================================================================== */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell-size));
+  grid-template-rows: repeat(3, var(--cell-size));
+  gap: var(--board-gap);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--board-gap);
+  box-shadow: var(--shadow-board);
+}
+
+/* ==========================================================================
+   Cell
+   ========================================================================== */
+.board__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  background-color: var(--color-surface-raised);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-cell);
+  cursor: pointer;
+  font-size: clamp(var(--font-size-2xl), 7vw, var(--font-size-4xl));
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+  box-shadow: var(--shadow-cell);
+  line-height: 1;
+  padding: 0;
+  /* Reset button appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.board__cell:focus-visible {
+  box-shadow: var(--shadow-focus);
+  border-color: var(--color-border-focus);
+  z-index: 1;
+}
+
+.board__cell:hover:not(.board__cell--filled):not(:disabled) {
+  background-color: var(--color-btn-bg-hover);
+  transform: scale(1.04);
+}
+
+.board__cell:active:not(.board__cell--filled):not(:disabled) {
+  transform: scale(0.97);
+  background-color: var(--color-btn-bg-active);
+}
+
+.board__cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+/* Filled state — a move has been played */
+.board__cell--filled {
+  cursor: default;
+}
+
+/* Marker — X */
+.board__cell--x {
+  color: var(--color-marker-x);
+  border-color: color-mix(in srgb, var(--color-marker-x) 30%, transparent);
+}
+
+/* Marker — O */
+.board__cell--o {
+  color: var(--color-marker-o);
+  border-color: color-mix(in srgb, var(--color-marker-o) 30%, transparent);
+}
+
+/* Winning cell highlight */
+.board__cell--winning {
+  background-color: color-mix(in srgb, var(--color-status-win) 15%, var(--color-surface-raised));
+  border-color: var(--color-status-win);
+  box-shadow:
+    var(--shadow-cell),
+    0 0 12px 2px color-mix(in srgb, var(--color-status-win) 40%, transparent);
+  animation: winning-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes winning-pulse {
+  from {
+    box-shadow:
+      var(--shadow-cell),
+      0 0 8px 2px color-mix(in srgb, var(--color-status-win) 30%, transparent);
+  }
+  to {
+    box-shadow:
+      var(--shadow-cell),
+      0 0 20px 6px color-mix(in srgb, var(--color-status-win) 55%, transparent);
+  }
+}
+
+/* ==========================================================================
+   Status
+   ========================================================================== */
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3.5rem; /* prevent layout shift */
+  text-align: center;
+}
+
+.status__message {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-status-playing);
+  transition: color var(--transition-base);
+}
+
+.status__message--win {
+  color: var(--color-status-win);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.status__message--draw {
+  color: var(--color-status-draw);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.status__player {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Player indicator badge */
+.status__player--x {
+  color: var(--color-marker-x);
+}
+
+.status__player--o {
+  color: var(--color-marker-o);
+}
+
+/* ARIA live region — visually hidden but announced */
+.status__live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Reset Button
+   ========================================================================== */
+.reset-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-8);
+  background-color: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.reset-button:hover {
+  background-color: var(--color-btn-bg-hover);
+  border-color: var(--color-border-focus);
+}
+
+.reset-button:active {
+  background-color: var(--color-btn-bg-active);
+  transform: scale(0.97);
+}
+
+.reset-button:focus-visible {
+  box-shadow: var(--shadow-focus);
+  border-color: var(--color-border-focus);
+}
+
+.reset-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Score / History panel (optional, future-proof)
+   ========================================================================== */
+.score-board {
+  display: flex;
+  gap: var(--space-6);
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.score-board__entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.score-board__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.score-board__label--x {
+  color: var(--color-marker-x);
+}
+
+.score-board__label--o {
+  color: var(--color-marker-o);
+}
+
+.score-board__value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+/* ==========================================================================
+   Responsive — medium screens
+   ========================================================================== */
+@media (min-width: 480px) {
+  .app {
+    gap: var(--space-10);
+    padding: var(--space-12) var(--space-6);
+  }
+
+  .status__message {
+    font-size: var(--font-size-2xl);
+  }
+
+  .status__message--win,
+  .status__message--draw {
+    font-size: var(--font-size-3xl);
+  }
+
+  .reset-button {
+    font-size: var(--font-size-lg);
+    padding: var(--space-4) var(--space-10);
+  }
+}
+
+/* ==========================================================================
+   Responsive — large screens
+   ========================================================================== */
+@media (min-width: 768px) {
+  .app {
+    max-width: 540px;
+    gap: var(--space-12);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
